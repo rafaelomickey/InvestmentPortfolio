@@ -22,6 +22,11 @@ namespace InvestmentPortfolioApi.Controllers
             _exchangeRateService = exchangeRateService;
         }
 
+        /// <summary>
+        /// Method that consults value stocks in finance data market
+        /// </summary>
+        /// <param name="request">ExchangeRateGetRequest</param>
+        /// <returns>ExchangeRateResponse</returns>
         [HttpGet()]
         [ProducesResponseType(typeof(ExchangeRateResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExchangeRateResponse), StatusCodes.Status204NoContent)]
