@@ -17,7 +17,7 @@ namespace InvestmentPortfolioTest.Validators
 
         [Theory]
         [InlineData("AAPL")]
-        public async Task Test_Exchange_Rate_Validator_Ok(string financeCode)
+        public void Test_Exchange_Rate_Validator_Ok(string financeCode)
         {
             _request = _fixture.Create<ExchangeRateGetRequest>();
             _request.FinanceCode = financeCode;
@@ -29,7 +29,7 @@ namespace InvestmentPortfolioTest.Validators
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task Test_Exchange_Rate_Validator_Error(string financeCode)
+        public void Test_Exchange_Rate_Validator_Error(string financeCode)
         {
             _request = _fixture.Create<ExchangeRateGetRequest>();
             _request.FinanceCode = financeCode;

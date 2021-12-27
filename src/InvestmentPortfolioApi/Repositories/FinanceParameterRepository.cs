@@ -25,13 +25,11 @@ namespace InvestmentPortfolioApi.Repositories
                           FROM TB_FINANCE_PARAMETER
                           WHERE FNP_ID = @Id";
 
-            using (var _conn = new MySqlConnection(_connectionString))
-            {
-                if (_conn.State == ConnectionState.Closed)
-                    await _conn.OpenAsync();
+            await using var conn = new MySqlConnection(_connectionString);
+            if (conn.State == ConnectionState.Closed)
+                await conn.OpenAsync();
 
-                return await _conn.QueryFirstOrDefaultAsync<FinanceParameter>(query, new { Id = id });
-            }
+            return await conn.QueryFirstOrDefaultAsync<FinanceParameter>(query, new { Id = id });
         }
     }
 }

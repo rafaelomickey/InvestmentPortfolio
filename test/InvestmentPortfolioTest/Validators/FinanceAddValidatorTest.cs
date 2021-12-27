@@ -16,7 +16,7 @@ namespace InvestmentPortfolioTest.Validators
 
         [Theory]
         [InlineData("AAPL", "Apple")]
-        public async Task Test_Finance_Validator_Ok(string financeCode, string companyName)
+        public void Test_Finance_Validator_Ok(string financeCode, string companyName)
         {
             _request = new FinanceAddRequest
             {
@@ -31,22 +31,9 @@ namespace InvestmentPortfolioTest.Validators
         [Theory]
         [InlineData("", "Apple")]
         [InlineData(null, "Apple")]
-        public async Task Test_Finance_Validator_Finance_Code_Error(string financeCode, string companyName)
-        {
-            _request = new FinanceAddRequest
-            {
-                FinanceCode = financeCode,
-                CompanyName = companyName
-            };
-
-            var validationResult = _validator.Validate(_request);
-            validationResult.IsValid.Should().BeFalse();
-        }
-
-        [Theory]
         [InlineData("AAPL", "")]
         [InlineData("AAPL", null)]
-        public async Task Test_Finance_Validator_Company_Name_Error(string financeCode, string companyName)
+        public void Test_Finance_Validator_Error(string financeCode, string companyName)
         {
             _request = new FinanceAddRequest
             {

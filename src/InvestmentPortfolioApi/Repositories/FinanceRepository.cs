@@ -32,13 +32,11 @@ namespace InvestmentPortfolioApi.Repositories
                             @CompanyName
                         ); SELECT LAST_INSERT_ID();";
 
-            using (var _conn = new MySqlConnection(_connectionString))
-            {
-                if (_conn.State == ConnectionState.Closed)
-                    await _conn.OpenAsync();
+            await using var conn = new MySqlConnection(_connectionString);
+            if (conn.State == ConnectionState.Closed)
+                await conn.OpenAsync();
 
-                return await _conn.ExecuteScalarAsync<int>(query, request);
-            }
+            return await conn.ExecuteScalarAsync<int>(query, request);
         }
 
         public async Task Update(FinanceUpdateRequest request)
@@ -48,13 +46,11 @@ namespace InvestmentPortfolioApi.Repositories
                           FIN_COMPANY_NAME = @CompanyName
                           WHERE FIN_ID = @Id";
 
-            using (var _conn = new MySqlConnection(_connectionString))
-            {
-                if (_conn.State == ConnectionState.Closed)
-                    await _conn.OpenAsync();
+            await using var conn = new MySqlConnection(_connectionString);
+            if (conn.State == ConnectionState.Closed)
+                await conn.OpenAsync();
 
-                await _conn.ExecuteScalarAsync(query, request);
-            }
+            await conn.ExecuteScalarAsync(query, request);
         }
 
         public async Task<IEnumerable<Finance>> Search(FinanceGetRequest request = null)
@@ -78,13 +74,11 @@ namespace InvestmentPortfolioApi.Repositories
             }
 
             var selector = builder.AddTemplate(query);
-            using (var _conn = new MySqlConnection(_connectionString))
-            {
-                if (_conn.State == ConnectionState.Closed)
-                    await _conn.OpenAsync();
+            await using var conn = new MySqlConnection(_connectionString);
+            if (conn.State == ConnectionState.Closed)
+                await conn.OpenAsync();
 
-                return await _conn.QueryAsync<Finance>(selector.RawSql, selector.Parameters);
-            }
+            return await conn.QueryAsync<Finance>(selector.RawSql, selector.Parameters);
         }
 
         public async Task<bool> Exists(FinanceGetRequest request)
@@ -95,13 +89,11 @@ namespace InvestmentPortfolioApi.Repositories
                           WHERE FIN_FINANCE_CODE = @FinanceCode
                           LIMIT 1";
 
-            using (var _conn = new MySqlConnection(_connectionString))
-            {
-                if (_conn.State == ConnectionState.Closed)
-                    await _conn.OpenAsync();
+            await using var conn = new MySqlConnection(_connectionString);
+            if (conn.State == ConnectionState.Closed)
+                await conn.OpenAsync();
 
-                return await _conn.QueryFirstOrDefaultAsync<bool>(query, request);
-            }
+            return await conn.QueryFirstOrDefaultAsync<bool>(query, request);
         }
     }
 }

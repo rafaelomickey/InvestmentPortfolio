@@ -40,13 +40,11 @@ namespace InvestmentPortfolioApi.Repositories
                             @TotalAmount
                         ); SELECT LAST_INSERT_ID();";
 
-            using (var _conn = new MySqlConnection(_connectionString))
-            {
-                if (_conn.State == ConnectionState.Closed)
-                    await _conn.OpenAsync();
+            await using var conn = new MySqlConnection(_connectionString);
+            if (conn.State == ConnectionState.Closed)
+                await conn.OpenAsync();
 
-                return await _conn.ExecuteScalarAsync<int>(query, request);
-            }
+            return await conn.ExecuteScalarAsync<int>(query, request);
         }
 
         public async Task<IEnumerable<FinanceEvent>> Get(FinanceEventGetRequest request)
@@ -68,13 +66,12 @@ namespace InvestmentPortfolioApi.Repositories
                 builder.Where("FNE_FINANCE_CODE = @FinanceCode", new { FinanceCode = request.FinanceCode });
 
             var selector = builder.AddTemplate(query);
-            using (var _conn = new MySqlConnection(_connectionString))
-            {
-                if (_conn.State == ConnectionState.Closed)
-                    await _conn.OpenAsync();
 
-                return await _conn.QueryAsync<FinanceEvent>(selector.RawSql, selector.Parameters);
-            }
+            await using var conn = new MySqlConnection(_connectionString);
+            if (conn.State == ConnectionState.Closed)
+                await conn.OpenAsync();
+
+            return await conn.QueryAsync<FinanceEvent>(selector.RawSql, selector.Parameters);
         }
     }
 }

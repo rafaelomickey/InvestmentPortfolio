@@ -31,57 +31,12 @@ namespace InvestmentPortfolioTest.Validators
         }
 
         [Theory]
+        [InlineData("AAPL", EOperationType.Buy, 15, 0)]
+        [InlineData("AAPL", EOperationType.Buy, 0, 4)]
+        [InlineData("AAPL", null, 11.32, 4)]
         [InlineData("", EOperationType.Buy, 11.32, 4)]
         [InlineData(null, EOperationType.Buy, 11.32, 4)]
-        public void Test_Finance_Event_Validator_Finance_Code_Error(string financeCode, EOperationType operation, decimal price, int quantity)
-        {
-            _request = new FinanceEventAddRequest
-            {
-                FinanceCode = financeCode,
-                Operation = operation,
-                Price = price,
-                Quantity = quantity
-            };
-
-            var validationResult = _validator.Validate(_request);
-            validationResult.IsValid.Should().BeFalse();
-        }
-
-        [Theory]
-        [InlineData("AAPL", null, 11.32, 4)]
-        public void Test_Finance_Event_Validator_Operation_Error(string financeCode, EOperationType? operation, decimal price, int quantity)
-        {
-            _request = new FinanceEventAddRequest
-            {
-                FinanceCode = financeCode,
-                Operation = operation,
-                Price = price,
-                Quantity = quantity
-            };
-
-            var validationResult = _validator.Validate(_request);
-            validationResult.IsValid.Should().BeFalse();
-        }
-
-        [Theory]
-        [InlineData("AAPL", EOperationType.Buy, 0, 4)]
-        public void Test_Finance_Event_Validator_Price_Error(string financeCode, EOperationType operation, decimal price, int quantity)
-        {
-            _request = new FinanceEventAddRequest
-            {
-                FinanceCode = financeCode,
-                Operation = operation,
-                Price = price,
-                Quantity = quantity
-            };
-
-            var validationResult = _validator.Validate(_request);
-            validationResult.IsValid.Should().BeFalse();
-        }
-
-        [Theory]
-        [InlineData("AAPL", EOperationType.Buy, 15, 0)]
-        public void Test_Finance_Event_Validator_Quantity_Error(string financeCode, EOperationType operation, decimal price, int quantity)
+        public void Test_Finance_Event_Validator_Error(string financeCode, EOperationType? operation, decimal price, int quantity)
         {
             _request = new FinanceEventAddRequest
             {
