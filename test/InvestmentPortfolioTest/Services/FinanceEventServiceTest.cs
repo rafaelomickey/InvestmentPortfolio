@@ -59,7 +59,7 @@ namespace InvestmentPortfolioTest.Services
             {
                 Assert.NotNull(result);
                 Assert.IsType<BaseResponse>(result);
-                Assert.Equal(result.StatusCode, StatusCodes.Status201Created);
+                Assert.Equal(result.StatusCode, StatusCodes.Status100Continue);
             }
         }
 
